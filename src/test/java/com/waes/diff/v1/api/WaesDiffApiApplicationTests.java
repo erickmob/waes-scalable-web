@@ -15,20 +15,22 @@
  */ 
 package com.waes.diff.v1.api;
 
+import com.waes.diff.v1.api.controller.IndexController;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-public class WaesDiffApiApplicationTests {
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest class WaesDiffApiApplicationTests {
 
   // @Autowired PayloadController payloadController;
   // @Autowired PayloadDiffController payloadDiffController;
-  // @Autowired IndexController indexController;
+  @Autowired IndexController indexController;
 
-  @Test
-  public void contextLoads() {
+  @Test void contextLoads() {
     // assertThat(payloadController).isNotNull();
     // assertThat(payloadDiffController).isNotNull();
-    // assertThat(indexController).isNotNull();
+      assertThat(indexController).isNotNull();
   }
 }

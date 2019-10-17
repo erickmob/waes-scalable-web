@@ -30,7 +30,7 @@ me@waes ./gradlew bootRun
 Calling the ***Left*** side endpoint
 ```zsh
 me@waes curl --request POST \
-  --url http://localhost:8080/v1/diff/uuid/left \
+  --url http://localhost:8080/v1/diff/uid/left \
   --header 'content-type: application/json' \
   --data '{
 	"content":"a29tcGFyYXRpb24gc2l0ZQ=="
@@ -39,14 +39,14 @@ me@waes curl --request POST \
 Response
 ----------------------------------------------------
 {
-  "message": "Payload [id:uuid] created",
+  "message": "Payload [id:uid] created",
   "status": "CREATED"
 }
 ```
  Calling the ***Right*** side endpoint
 ```zsh
 me@waes curl --request POST \
-  --url http://localhost:8080/v1/diff/uuid/right \
+  --url http://localhost:8080/v1/diff/uid/right \
   --header 'content-type: application/json' \
   --data '{
 	"content":"Y29tcGFyYXRpb24gc2l6ZQ=="
@@ -56,7 +56,7 @@ Calling the **Diff** endpoint:
 
 ```zsh
 me@waes curl --request GET \
-  --url http://localhost:8080/v1/diff/uuid
+  --url http://localhost:8080/v1/diff/uid
 ----------------------------------------------------
 Response
 ----------------------------------------------------
