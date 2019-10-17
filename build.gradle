@@ -91,7 +91,7 @@ spotless {
 
 sonarqube {
 	properties {
-		property 'sonar.coverage.exclusions','**/v1/api/domain/json/**,**/v1/api/domain/enums/**,**/v1/api/filter/**,**/v1/api/repository/entity/**'
+		property 'sonar.coverage.exclusions','**/WaesDiffApiApplication**,**/v1/api/domain/json/**,**/v1/api/domain/enums/**,**/v1/api/filter/**,**/v1/api/repository/entity/**'
 	}
 }
 
@@ -99,11 +99,12 @@ jacocoTestCoverageVerification {
     afterEvaluate {
 		classDirectories.from = files(classDirectories.files.collect {
 			fileTree(dir: it, exclude:[
-					'com/waes/diff/v1/api/domain/enums/*',
-					'com/waes/diff/v1/api/domain/json/*',
-					'com/waes/diff/v1/api/domain/*',
-					'com/waes/diff/v1/api/filter/*',
-					'com/waes/diff/v1/api/repository/entity/*',
+					'**/WaesDiffApiApplication**',
+					'**/v1/api/domain/enums/*',
+					'**/v1/api/domain/json/*',
+					'**/v1/api/domain/*',
+					'**/v1/api/filter/*',
+					'**/v1/api/repository/entity/*',
 			])
 		})
     }
