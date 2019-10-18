@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 package com.waes.diff.v1.api.resource;
 
 import com.waes.diff.v1.api.domain.enums.Direction;

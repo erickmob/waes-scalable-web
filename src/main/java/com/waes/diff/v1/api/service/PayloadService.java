@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 package com.waes.diff.v1.api.service;
 
 import com.waes.diff.v1.api.domain.response.PayloadResponse;
@@ -24,10 +24,10 @@ import org.springframework.stereotype.Service;
 
 @Service @RequiredArgsConstructor public class PayloadService {
 
-	private final PayloadRepository payloadRepository;
+  private final PayloadRepository payloadRepository;
 
-	public PayloadResponse save(Payload payload) {
-		Payload saved = payloadRepository.save(payload);
-		return PayloadResponse.create().status(HttpStatus.CREATED).message(String.format("Payload [id:%s] created", saved.getId()));
-	}
+  public PayloadResponse save(Payload payload) {
+    Payload saved = payloadRepository.save(payload);
+    return PayloadResponse.create().status(HttpStatus.CREATED).message(String.format("Payload [id:%s] created", saved.getId()));
+  }
 }

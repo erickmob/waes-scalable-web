@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 package com.waes.diff.v1.api.controller;
 
 import org.junit.jupiter.api.Test;
@@ -24,11 +24,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest class IndexControllerTest {
+@WebMvcTest(IndexController.class) class IndexControllerTest {
 
-	@Autowired MockMvc mockMvc;
+  @Autowired MockMvc mockMvc;
 
-	@Test void index_rediretToSwagger() throws Exception {
-		mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("swagger-ui.html"));
-	}
+  @Test void index_rediretToSwagger() throws Exception {
+    mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("swagger-ui.html"));
+  }
 }
