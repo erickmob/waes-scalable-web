@@ -1,10 +1,10 @@
 plugins {
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 	id 'idea'
 	id 'jacoco'
 	id 'org.sonarqube' version '2.8'
-	id 'org.springframework.boot' version '2.2.0.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'com.diffplug.gradle.spotless' version '3.18.0'
 	id 'org.unbroken-dome.test-sets' version '2.1.1'
 	id 'com.palantir.docker' version '0.22.1'
@@ -29,17 +29,14 @@ bootJar {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/snapshot' }
 	maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.BUILD-SNAPSHOT")
+	set('springCloudVersion', "Hoxton.M3")
 }
 
-test {
-	useJUnitPlatform()
-}
+
 
 testSets {
 	integrationTest {
@@ -48,31 +45,34 @@ testSets {
 }
 
 dependencies {
-	
+	// spring boot and cloud
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// swagger 
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	// bitbucket 
 	implementation 'org.bitbucket.cowwoc:diff-match-patch:1.2'
 	implementation 'org.apache.commons:commons-text:1.8'
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// annotation processors
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
+	// test
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		exclude group: 'junit', module: 'junit' //by both name and group
 	}
-	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
-	testImplementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
-	testImplementation "org.junit.jupiter:junit-jupiter-params:5.2.0"
+//	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+//	testImplementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
+//	testImplementation "org.junit.jupiter:junit-jupiter-params:5.2.0"
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'	
 	testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
-
 	integrationTestImplementation sourceSets.test.output
 }
 
@@ -80,6 +80,10 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+test {
+	useJUnitPlatform()
 }
 
 spotless {
