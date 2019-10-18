@@ -18,14 +18,17 @@ package com.waes.diff.v1.api.domain.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
-
-/**
- * Request body object
- */
-@ApiModel(description = "Request body object ") @Validated @Data public class PayloadRequestBody {
-	@JsonProperty("content") @ApiModelProperty("content") @NotBlank(message = "Content should not be null or empty") private String content;
+/** Request body object */
+@ApiModel(description = "Request body object ")
+@Validated
+@Data
+public class PayloadRequestBody {
+  @JsonProperty("content")
+  @ApiModelProperty("content")
+  @NotBlank(message = "Content should not be null or empty")
+  private String content;
 }

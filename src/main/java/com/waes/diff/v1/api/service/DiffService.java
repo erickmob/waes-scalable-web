@@ -18,14 +18,13 @@ package com.waes.diff.v1.api.service;
 import com.waes.diff.v1.api.domain.model.DiffDetails;
 import com.waes.diff.v1.api.domain.model.PayloadData;
 import com.waes.diff.v1.api.domain.model.PayloadDiffResult;
-
 import java.util.LinkedList;
 
 public interface DiffService {
 
-	PayloadDiffResult getDiff(String id);
+  PayloadDiffResult getDiff(String id);
 
-	PayloadDiffResult compareSides(PayloadData payloadData);
+  PayloadDiffResult compareSides(PayloadData payloadData);
 
-	LinkedList<DiffDetails> getDiffDetails(PayloadData payloadData);
+  LinkedList<DiffDetails> getDiffDetails(PayloadData payloadData);
 }

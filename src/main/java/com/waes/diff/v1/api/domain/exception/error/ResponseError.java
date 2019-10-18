@@ -16,32 +16,33 @@
 package com.waes.diff.v1.api.domain.exception.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
+@Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ResponseError {
 
-@Data @NoArgsConstructor(access = AccessLevel.PRIVATE) public class ResponseError {
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+  private LocalDateTime timestamp = LocalDateTime.now();
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss") private LocalDateTime timestamp = LocalDateTime
-			.now();
+  private Integer status;
+  private String message;
 
-	private Integer status;
-	private String message;
+  public static ResponseError create() {
+    return new ResponseError();
+  }
 
-	public static ResponseError create() {
-		return new ResponseError();
-	}
+  public ResponseError message(String message) {
+    this.message = message;
+    return this;
+  }
 
-	public ResponseError message(String message) {
-		this.message = message;
-		return this;
-	}
-
-	public ResponseError status(HttpStatus status) {
-		this.status = status.value();
-		return this;
-	}
+  public ResponseError status(HttpStatus status) {
+    this.status = status.value();
+    return this;
+  }
 }

@@ -16,13 +16,13 @@
 package com.waes.diff.v1.api.repository;
 
 import com.waes.diff.v1.api.repository.entity.Payload;
+import java.util.List;
+import javax.validation.constraints.NotBlank;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
-import java.util.List;
+@Repository
+public interface PayloadRepository extends MongoRepository<Payload, String> {
 
-@Repository public interface PayloadRepository extends MongoRepository<Payload, String> {
-
-	List<Payload> findPayloadById(@NotBlank String id);
+  List<Payload> findPayloadById(@NotBlank String id);
 }

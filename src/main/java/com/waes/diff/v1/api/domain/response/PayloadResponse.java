@@ -24,38 +24,44 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * Payload Response
- */
-@ApiModel(description = "Payload Response") @Validated @Data @NoArgsConstructor(access = AccessLevel.PRIVATE) public class PayloadResponse {
+/** Payload Response */
+@ApiModel(description = "Payload Response")
+@Validated
+@Data
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class PayloadResponse {
 
-	@JsonProperty("message") @ApiModelProperty("message") private String message;
+  @JsonProperty("message")
+  @ApiModelProperty("message")
+  private String message;
 
-	@JsonProperty("status") @ApiModelProperty("status") private HttpStatus status;
+  @JsonProperty("status")
+  @ApiModelProperty("status")
+  private HttpStatus status;
 
-	public static PayloadResponse create() {
-		return new PayloadResponse();
-	}
+  public static PayloadResponse create() {
+    return new PayloadResponse();
+  }
 
-	/**
-	 * Adds a description message
-	 *
-	 * @param message the response message
-	 * @return The payload response
-	 */
-	public PayloadResponse message(final String message) {
-		this.message = message;
-		return this;
-	}
+  /**
+   * Adds a description message
+   *
+   * @param message the response message
+   * @return The payload response
+   */
+  public PayloadResponse message(final String message) {
+    this.message = message;
+    return this;
+  }
 
-	/**
-	 * Adds a http status
-	 *
-	 * @param status Http Status
-	 * @return The payload response
-	 */
-	public PayloadResponse status(final HttpStatus status) {
-		this.status = status;
-		return this;
-	}
+  /**
+   * Adds a http status
+   *
+   * @param status Http Status
+   * @return The payload response
+   */
+  public PayloadResponse status(final HttpStatus status) {
+    this.status = status;
+    return this;
+  }
 }

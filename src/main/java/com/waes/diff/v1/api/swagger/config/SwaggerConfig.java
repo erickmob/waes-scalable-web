@@ -15,6 +15,9 @@
  */ 
 package com.waes.diff.v1.api.swagger.config;
 
+import static com.google.common.base.Predicates.not;
+import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
+
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,22 +29,33 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import static com.google.common.base.Predicates.not;
-import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
 
-@Configuration @EnableSwagger2 public class SwaggerConfig {
+  @Bean
+  public Docket api() {
+    return new Docket(SWAGGER_2)
+        .useDefaultResponseMessages(false)
+        .groupName("tech-assignment")
+        .apiInfo(apiInfo())
+        .select()
+        .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+        .paths(not(PathSelectors.regex("/error.*")))
+        .build();
+  }
 
-	@Bean public Docket api() {
-		return new Docket(SWAGGER_2).useDefaultResponseMessages(false).groupName("tech-assignment").apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class)).paths(not(PathSelectors.regex("/error.*"))).build();
-	}
+  //  Docket apiV1()
 
-	//  Docket apiV1()
-
-	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Encoded JSON Diff Comparison")
-				.description("This is a simple server encoded JSON comparator.").license("Apache 2.0")
-				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html").termsOfServiceUrl("").version("1.0.0")
-				.contact(new Contact("John Silva", "", "johnjonathann@live.com")).build();
-	}
+  private ApiInfo apiInfo() {
+    return new ApiInfoBuilder()
+        .title("Encoded JSON Diff Comparison")
+        .description("This is a simple server encoded JSON comparator.")
+        .license("Apache 2.0")
+        .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+        .termsOfServiceUrl("")
+        .version("1.0.0")
+        .contact(new Contact("John Silva", "", "johnjonathann@live.com"))
+        .build();
+  }
 }

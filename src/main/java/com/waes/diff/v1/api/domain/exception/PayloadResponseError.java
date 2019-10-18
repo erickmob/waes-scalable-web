@@ -20,9 +20,9 @@ import org.springframework.http.HttpStatus;
 
 public interface PayloadResponseError {
 
-	String getMessage();
+  String getMessage();
 
-	default ResponseError getResponseError() {
-		return ResponseError.create().message(getMessage()).status(HttpStatus.BAD_REQUEST);
-	}
+  default ResponseError getResponseError() {
+    return ResponseError.create().message(getMessage()).status(HttpStatus.BAD_REQUEST);
+  }
 }

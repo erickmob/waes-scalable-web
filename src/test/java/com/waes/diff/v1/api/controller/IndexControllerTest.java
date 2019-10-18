@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
   @Autowired MockMvc mockMvc;
 
-  @Test void index_rediretToSwagger() throws Exception {
-    mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("swagger-ui.html"));
+	@Test void index_rediretToSwagger() throws Exception {
+		mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("swagger-ui.html"));
   }
 }

@@ -22,9 +22,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-@Data @AllArgsConstructor @ApiModel(description = "Holds the length and offset of differences") @Validated public class DiffDetails {
+@Data
+@AllArgsConstructor
+@ApiModel(description = "Holds the length and offset of differences")
+@Validated
+public class DiffDetails {
 
-	@JsonProperty("offset") @ApiModelProperty("offset") private Integer offset;
+  @JsonProperty("offset")
+  @ApiModelProperty("offset")
+  private Integer offset;
 
-	@JsonProperty("length") @ApiModelProperty("length") private Integer length;
+  @JsonProperty("length")
+  @ApiModelProperty("length")
+  private Integer length;
 }

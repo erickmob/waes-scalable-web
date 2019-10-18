@@ -15,42 +15,51 @@
  */ 
 package com.waes.diff.v1.api.repository.entity;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.waes.diff.v1.api.domain.enums.Direction;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotBlank;
+@Data
+@Document(collection = "payloads")
+@CompoundIndex(
+    useGeneratedName = true,
+    def = "{'id': 1, 'direction': 1, 'content': 1 }",
+    unique = true)
+@NoArgsConstructor(access = PRIVATE)
+public class Payload {
+  @Id private String uid;
 
-import static lombok.AccessLevel.PRIVATE;
+  @NotBlank(message = "Id is mandatory")
+  private String id;
 
-@Data @Document(collection = "payloads") @CompoundIndex(useGeneratedName = true, def = "{'id': 1, 'direction': 1, 'content': 1 }", unique = true) @NoArgsConstructor(access = PRIVATE) public class Payload {
-	@Id private String uid;
+  @NotBlank(message = "ID can not be null or empty")
+  private Direction direction;
 
-	@NotBlank(message = "Id is mandatory") private String id;
+  @NotBlank(message = "Content is mandatory")
+  private String content;
 
-	@NotBlank(message = "ID can not be null or empty") private Direction direction;
+  public static Payload create() {
+    return new Payload();
+  }
 
-	@NotBlank(message = "Content is mandatory") private String content;
+  public Payload id(String id) {
+    this.id = id;
+    return this;
+  }
 
-	public static Payload create() {
-		return new Payload();
-	}
+  public Payload direction(Direction direction) {
+    this.direction = direction;
+    return this;
+  }
 
-	public Payload id(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public Payload direction(Direction direction) {
-		this.direction = direction;
-		return this;
-	}
-
-	public Payload content(String content) {
-		this.content = content;
-		return this;
-	}
+  public Payload content(String content) {
+    this.content = content;
+    return this;
+  }
 }

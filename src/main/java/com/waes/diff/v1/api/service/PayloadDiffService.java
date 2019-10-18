@@ -15,6 +15,9 @@
  */ 
 package com.waes.diff.v1.api.service;
 
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.waes.diff.v1.api.domain.enums.Direction;
 import com.waes.diff.v1.api.domain.enums.Result;
@@ -24,86 +27,93 @@ import com.waes.diff.v1.api.domain.model.PayloadData;
 import com.waes.diff.v1.api.domain.model.PayloadDiffResult;
 import com.waes.diff.v1.api.repository.PayloadRepository;
 import com.waes.diff.v1.api.repository.entity.Payload;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch.Diff;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+@Service
+@RequiredArgsConstructor
+public class PayloadDiffService implements DiffService {
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
+  private final PayloadRepository payloadRepository;
 
-@Service @RequiredArgsConstructor public class PayloadDiffService implements DiffService {
+  /**
+   * Searches for the {@code id} run validations and return {@code PayloadDiffResult}
+   *
+   * @param id of the left and right encoded JSON content
+   * @return {@code PayloadDiffResult} with the comparison details.
+   */
+  @Override
+  public PayloadDiffResult getDiff(String id) {
+    List<Payload> payloads = payloadRepository.findPayloadById(id);
+    return compareSides(getPayloadSidesData(payloads));
+  }
 
-	private final PayloadRepository payloadRepository;
+  /**
+   * Receives a {@code Payload} with both Left and Right sides. Compares the content and returns a
+   * {@code PayloadDiffResult}
+   *
+   * @param payloadData payload data
+   * @return {@code PayloadDiffResult} with the comparison details.
+   */
+  @Override
+  public PayloadDiffResult compareSides(PayloadData payloadData) {
+    if (payloadData.isNoneBlank()) {
+      if (payloadData.isEqual()) {
+        return PayloadDiffResult.create().result(Result.EQUAL);
+      } else if (payloadData.sizeDosNotMatch()) {
+        return PayloadDiffResult.create().result(Result.SIZE_NOT_MATCH);
+      } else {
+        return PayloadDiffResult.create()
+            .result(Result.NOT_EQUAL)
+            .addDetails(getDiffDetails(payloadData));
+      }
+    } else {
+      throw new PayloadForComparisonNotFound();
+    }
+  }
 
-	/**
-	 * Searches for the {@code id} run validations and return {@code PayloadDiffResult}
-	 *
-	 * @param id of the left and right encoded JSON content
-	 * @return {@code PayloadDiffResult} with the comparison details.
-	 */
-	@Override public PayloadDiffResult getDiff(String id) {
-		List<Payload> payloads = payloadRepository.findPayloadById(id);
-		return compareSides(getPayloadSidesData(payloads));
-	}
+  /**
+   * Filter and returns a list with all differences
+   *
+   * @param payloadData A list of {@code PayloadData}
+   * @return {@code DiffDetails} list
+   */
+  @Override
+  public LinkedList<DiffDetails> getDiffDetails(PayloadData payloadData) {
+    LinkedList<Diff> diff =
+        new DiffMatchPatch().diffMain(payloadData.getLeft(), payloadData.getRight());
+    return diff.stream()
+        .filter(e -> e.operation.equals(DiffMatchPatch.Operation.DELETE))
+        .map(m -> new DiffDetails(offset(diff, m), m.text.length()))
+        .collect(Collectors.toCollection(LinkedList::new));
+  }
 
-	/**
-	 * Receives a {@code Payload} with both Left and Right sides. Compares the content and returns a
-	 * {@code PayloadDiffResult}
-	 *
-	 * @param payloadData payload data
-	 * @return {@code PayloadDiffResult} with the comparison details.
-	 */
-	@Override public PayloadDiffResult compareSides(PayloadData payloadData) {
-		if (payloadData.isNoneBlank()) {
-			if (payloadData.isEqual()) {
-				return PayloadDiffResult.create().result(Result.EQUAL);
-			} else if (payloadData.sizeDosNotMatch()) {
-				return PayloadDiffResult.create().result(Result.SIZE_NOT_MATCH);
-			} else {
-				return PayloadDiffResult.create().result(Result.NOT_EQUAL).addDetails(getDiffDetails(payloadData));
-			}
-		} else {
-			throw new PayloadForComparisonNotFound();
-		}
-	}
+  /**
+   * Extract left and right sides from a {@code List<Payload>} and merge the results into a {@code
+   * PayloadData} object.
+   *
+   * @param payloads {@code List<Payload>} of payload to be transformed into {@code PayloadData}
+   * @return Payload data with Left and Right encoded strings
+   */
+  private PayloadData getPayloadSidesData(List<Payload> payloads) {
+    Map<Direction, String> map =
+        payloads.stream().collect(toMap(Payload::getDirection, Payload::getContent));
+    PayloadData payloadData = new ObjectMapper().convertValue(map, PayloadData.class);
+    return ofNullable(payloadData).orElseThrow(PayloadForComparisonNotFound::new);
+  }
 
-	/**
-	 * Filter and returns a list with all differences
-	 *
-	 * @param payloadData A list of {@code PayloadData}
-	 * @return {@code DiffDetails} list
-	 */
-	@Override public LinkedList<DiffDetails> getDiffDetails(PayloadData payloadData) {
-		LinkedList<Diff> diff = new DiffMatchPatch().diffMain(payloadData.getLeft(), payloadData.getRight());
-		return diff.stream().filter(e -> e.operation.equals(DiffMatchPatch.Operation.DELETE))
-				.map(m -> new DiffDetails(offset(diff, m), m.text.length())).collect(Collectors.toCollection(LinkedList::new));
-	}
-
-	/**
-	 * Extract left and right sides from a {@code List<Payload>} and merge the results into a {@code
-	 * PayloadData} object.
-	 *
-	 * @param payloads {@code List<Payload>} of payload to be transformed into {@code PayloadData}
-	 * @return Payload data with Left and Right encoded strings
-	 */
-	private PayloadData getPayloadSidesData(List<Payload> payloads) {
-		Map<Direction, String> map = payloads.stream().collect(toMap(Payload::getDirection, Payload::getContent));
-		PayloadData payloadData = new ObjectMapper().convertValue(map, PayloadData.class);
-		return ofNullable(payloadData).orElseThrow(PayloadForComparisonNotFound::new);
-	}
-
-	/**
-	 * @param diffs List with all differences
-	 * @param diff  The difference needed to have its index found
-	 * @return The index of diff location
-	 */
-	private int offset(LinkedList<Diff> diffs, Diff diff) {
-		return new DiffMatchPatch().diffText1(diffs).indexOf(diff.text);
-	}
+  /**
+   * @param diffs List with all differences
+   * @param diff The difference needed to have its index found
+   * @return The index of diff location
+   */
+  private int offset(LinkedList<Diff> diffs, Diff diff) {
+    return new DiffMatchPatch().diffText1(diffs).indexOf(diff.text);
+  }
 }

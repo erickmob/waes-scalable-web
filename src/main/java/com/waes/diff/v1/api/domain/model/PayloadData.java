@@ -15,31 +15,35 @@
  */ 
 package com.waes.diff.v1.api.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
-
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.length;
 
-@Data public class PayloadData {
-	@JsonIgnore private String id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
-	@JsonProperty("LEFT") @NotBlank(message = "LEFT side must be not null") private String left;
+@Data
+public class PayloadData {
+  @JsonIgnore private String id;
 
-	@JsonProperty("RIGHT") @NotBlank(message = "RIGHT side must be not null") private String right;
+  @JsonProperty("LEFT")
+  @NotBlank(message = "LEFT side must be not null")
+  private String left;
 
-	public boolean isEqual() {
-		return left.equals(right);
-	}
+  @JsonProperty("RIGHT")
+  @NotBlank(message = "RIGHT side must be not null")
+  private String right;
 
-	public boolean sizeDosNotMatch() {
-		return length(left) != length(right);
-	}
+  public boolean isEqual() {
+    return left.equals(right);
+  }
 
-	public boolean isNoneBlank() {
-		return isNotBlank(left) && isNotBlank(right);
-	}
+  public boolean sizeDosNotMatch() {
+    return length(left) != length(right);
+  }
+
+  public boolean isNoneBlank() {
+    return isNotBlank(left) && isNotBlank(right);
+  }
 }

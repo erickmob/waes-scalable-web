@@ -22,12 +22,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-@Service @RequiredArgsConstructor public class PayloadService {
+@Service
+@RequiredArgsConstructor
+public class PayloadService {
 
   private final PayloadRepository payloadRepository;
 
   public PayloadResponse save(Payload payload) {
     Payload saved = payloadRepository.save(payload);
-    return PayloadResponse.create().status(HttpStatus.CREATED).message(String.format("Payload [id:%s] created", saved.getId()));
+    return PayloadResponse.create()
+        .status(HttpStatus.CREATED)
+        .message(String.format("Payload [id:%s] created", saved.getId()));
   }
 }

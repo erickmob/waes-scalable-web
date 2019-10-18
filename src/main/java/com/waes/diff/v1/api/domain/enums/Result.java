@@ -16,5 +16,7 @@
 package com.waes.diff.v1.api.domain.enums;
 
 public enum Result {
-	EQUAL, NOT_EQUAL, SIZE_NOT_MATCH
+  EQUAL,
+  NOT_EQUAL,
+  SIZE_NOT_MATCH
 }

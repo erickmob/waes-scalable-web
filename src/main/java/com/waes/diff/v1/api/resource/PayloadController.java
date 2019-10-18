@@ -15,11 +15,15 @@
  */ 
 package com.waes.diff.v1.api.resource;
 
+import static com.waes.diff.v1.api.repository.entity.Payload.create;
+import static org.springframework.http.ResponseEntity.status;
+
 import com.waes.diff.v1.api.domain.enums.Direction;
 import com.waes.diff.v1.api.domain.request.PayloadRequestBody;
 import com.waes.diff.v1.api.domain.response.PayloadResponse;
 import com.waes.diff.v1.api.service.PayloadService;
 import io.swagger.annotations.Api;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,47 +31,50 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+@Validated
+@RestController
+@RequestMapping("/v1/diff")
+@RequiredArgsConstructor
+@Api(value = "v1", tags = "payloads")
+public class PayloadController implements PayloadApi {
 
-import static com.waes.diff.v1.api.repository.entity.Payload.create;
-import static org.springframework.http.ResponseEntity.status;
+  private final PayloadService payloadService;
 
-@Validated @RestController @RequestMapping("/v1/diff") @RequiredArgsConstructor @Api(value = "v1", tags = "payloads") public class PayloadController
-		implements PayloadApi {
+  /**
+   * Creates a {@code Payload} register on the database to be compared later.
+   *
+   * @param id Path parameter
+   * @param body JSON Object from body request
+   * @param direction The side to used in the comparison
+   * @return {@code PayloadResponse} with a message and a status code.
+   */
+  private PayloadResponse save(String id, PayloadRequestBody body, Direction direction) {
+    return payloadService.save(create().id(id).content(body.getContent()).direction(direction));
+  }
 
-	private final PayloadService payloadService;
+  /**
+   * Adds a new Left side {@code Payload} data
+   *
+   * @param id payload
+   * @param requestBody with a encoded JSON
+   * @return {@code PayloadResponse}
+   */
+  @Override
+  public ResponseEntity<PayloadResponse> addLeftPayload(
+      String id, @Valid PayloadRequestBody requestBody) {
+    return status(HttpStatus.CREATED).body(save(id, requestBody, Direction.LEFT));
+  }
 
-	/**
-	 * Creates a {@code Payload} register on the database to be compared later.
-	 *
-	 * @param id        Path parameter
-	 * @param body      JSON Object from body request
-	 * @param direction The side to used in the comparison
-	 * @return {@code PayloadResponse} with a message and a status code.
-	 */
-	private PayloadResponse save(String id, PayloadRequestBody body, Direction direction) {
-		return payloadService.save(create().id(id).content(body.getContent()).direction(direction));
-	}
-
-	/**
-	 * Adds a new Left side {@code Payload} data
-	 *
-	 * @param id          payload
-	 * @param requestBody with a encoded JSON
-	 * @return {@code PayloadResponse}
-	 */
-	@Override public ResponseEntity<PayloadResponse> addLeftPayload(String id, @Valid PayloadRequestBody requestBody) {
-		return status(HttpStatus.CREATED).body(save(id, requestBody, Direction.LEFT));
-	}
-
-	/**
-	 * Adds a new Right side {@code Payload} data
-	 *
-	 * @param id          payload
-	 * @param requestBody with a encoded JSON
-	 * @return {@code PayloadResponse}
-	 */
-	@Override public ResponseEntity<PayloadResponse> addRightPayload(String id, @Valid PayloadRequestBody requestBody) {
-		return status(HttpStatus.CREATED).body(save(id, requestBody, Direction.RIGHT));
-	}
+  /**
+   * Adds a new Right side {@code Payload} data
+   *
+   * @param id payload
+   * @param requestBody with a encoded JSON
+   * @return {@code PayloadResponse}
+   */
+  @Override
+  public ResponseEntity<PayloadResponse> addRightPayload(
+      String id, @Valid PayloadRequestBody requestBody) {
+    return status(HttpStatus.CREATED).body(save(id, requestBody, Direction.RIGHT));
+  }
 }

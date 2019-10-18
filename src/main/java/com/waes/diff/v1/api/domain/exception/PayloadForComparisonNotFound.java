@@ -19,13 +19,13 @@ import java.text.MessageFormat;
 
 public class PayloadForComparisonNotFound extends RuntimeException implements PayloadResponseError {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public PayloadForComparisonNotFound(String id) {
-		super(MessageFormat.format("Requested Id [{0}] not found for comparasion.", id));
-	}
+  public PayloadForComparisonNotFound(String id) {
+    super(MessageFormat.format("Requested Id [{0}] not found for comparasion.", id));
+  }
 
-	public PayloadForComparisonNotFound() {
-		super("No content found for comparison.");
-	}
+  public PayloadForComparisonNotFound() {
+    super("No content found for comparison.");
+  }
 }

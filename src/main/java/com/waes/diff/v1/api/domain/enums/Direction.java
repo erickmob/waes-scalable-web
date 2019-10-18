@@ -16,5 +16,6 @@
 package com.waes.diff.v1.api.domain.enums;
 
 public enum Direction {
-	LEFT, RIGHT
+  LEFT,
+  RIGHT
 }

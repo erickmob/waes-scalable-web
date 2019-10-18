@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 package com.waes.diff.v1.api.resource;
 
 import com.waes.diff.v1.api.domain.model.PayloadDiffResult;
@@ -24,12 +24,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Validated @RequiredArgsConstructor @RestController @RequestMapping("/v1/diff") @Api(value = "v1", tags = "payloads") public class PayloadDiffController
-		implements PayloadDiffApi {
+@Validated
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/v1/diff")
+@Api(value = "v1", tags = "payloads")
+public class PayloadDiffController implements PayloadDiffApi {
 
-	private final PayloadDiffService payloadDiffService;
+  private final PayloadDiffService payloadDiffService;
 
-	@Override public ResponseEntity<PayloadDiffResult> getPayloadDifferences(String id) {
-		return ResponseEntity.ok(payloadDiffService.getDiff(id));
-	}
+  @Override
+  public ResponseEntity<PayloadDiffResult> getPayloadDifferences(String id) {
+    return ResponseEntity.ok(payloadDiffService.getDiff(id));
+  }
 }
