@@ -91,7 +91,7 @@ spotless {
 
 sonarqube {
 	properties {
-		property 'sonar.coverage.exclusions','**/WaesDiffApiApplication**,**/v1/api/domain/json/**,**/v1/api/domain/enums/**,**/v1/api/filter/**,**/v1/api/repository/entity/**'
+		property 'sonar.coverage.exclusions','**/ApiApplication**,**/v1/api/domain/request/**,**/v1/api/domain/enums/**,**/v1/api/filter/**,**/v1/api/repository/entity/**'
 	}
 }
 
@@ -99,10 +99,10 @@ jacocoTestCoverageVerification {
     afterEvaluate {
 		classDirectories.from = files(classDirectories.files.collect {
 			fileTree(dir: it, exclude:[
-					'**/WaesDiffApiApplication**',
+					'**/ApiApplication**',
 					'**/v1/api/domain/enums/*',
-					'**/v1/api/domain/json/*',
-					'**/v1/api/domain/*',
+					'**/v1/api/domain/request/*',
+//					'**/v1/api/domain/*',
 					'**/v1/api/filter/*',
 					'**/v1/api/repository/entity/*',
 			])
@@ -115,7 +115,7 @@ jacocoTestCoverageVerification {
             limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
-                minimum = 0.7
+//                minimum = 0.7
             }
         }
 
@@ -123,7 +123,7 @@ jacocoTestCoverageVerification {
 			enabled = false
 			element = 'CLASS'
 			includes = ['com.waes.diff.v1.api.*']
-			excludes = ['com.waes.diff.v1.api.WaesDiffApiApplication**']
+			excludes = ['com.waes.diff.v1.api.ApiApplication**']
             limit {
 				counter = 'LINE'
 				value = 'TOTALCOUNT'

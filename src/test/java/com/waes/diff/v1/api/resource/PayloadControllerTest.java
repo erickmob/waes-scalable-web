@@ -69,8 +69,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   }
 
   @Test void whenAddRightPayloadWithInvalidBody_returnNotFound() throws Exception {
-    final String content = "{\"content\":\"\"}";
-    mockMvc.perform(post("/v1/diff/{id}/right", "udi").content(content).contentType(APPLICATION_JSON))
+    mockMvc.perform(post("/v1/diff/{id}/right", "udi").content(invalidPayload).contentType(APPLICATION_JSON))
             .andExpect(status().isBadRequest()).andExpect(jsonPath("$.content", Is.is("Content should not be null or empty")));
   }
 }
