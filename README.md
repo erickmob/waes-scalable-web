@@ -1,5 +1,13 @@
 # WAES Assignemnt - Scalable Web 
 
+![CircleCI](https://img.shields.io/circleci/build/github/johnjonathan/waes-scalable-web/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnjonathan_waes-scalable-web&metric=alert_status)](https://sonarcloud.io/dashboard?id=johnjonathan_waes-scalable-web)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=johnjonathan_waes-scalable-web&metric=security_rating)](https://sonarcloud.io/dashboard?id=johnjonathan_waes-scalable-web)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnjonathan_waes-scalable-web&metric=coverage)](https://sonarcloud.io/dashboard?id=johnjonathan_waes-scalable-web)
+[![GitHub license](https://img.shields.io/github/license/johnjonathan/waes-scalable-web)](https://github.com/johnjonathan/waes-scalable-web/blob/master/LICENSE)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=johnjonathan_waes-scalable-web&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=johnjonathan_waes-scalable-web)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=johnjonathan_waes-scalable-web&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=johnjonathan_waes-scalable-web)
+
 A simple REST API that shows the differences between ***left*** and ***right*** side. 
 
 ### Prerequisites
