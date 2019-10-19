@@ -12,8 +12,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 package com.waes.diff.v1.api.service;
+
+import static com.waes.diff.v1.api.factory.PayloadFactory.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.waes.diff.v1.api.domain.enums.Direction;
 import com.waes.diff.v1.api.domain.response.PayloadResponse;
@@ -25,21 +28,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.http.HttpStatus;
 
-import static com.waes.diff.v1.api.factory.PayloadFactory.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+@DataMongoTest
+public class PayloadServiceTest {
 
-@DataMongoTest public class PayloadServiceTest {
+  @Autowired private PayloadRepository payloadRepository;
+  private PayloadService payloadService;
 
-	@Autowired private PayloadRepository payloadRepository;
-	private PayloadService payloadService;
+  @BeforeEach
+  public void setUp() {
+    payloadService = new PayloadService(payloadRepository);
+  }
 
-	@BeforeEach public void setUp() {
-		payloadService = new PayloadService(payloadRepository);
-	}
-
-	@Test public void save() {
-		PayloadResponse payloadResponse = payloadService.save(Payload.create().id(ID_1).direction(Direction.RIGHT).content(RIGHT_1));
-		assertEquals(createdMessage(ID_1), payloadResponse.getMessage());
-		assertEquals(HttpStatus.CREATED, payloadResponse.getStatus());
-	}
+  @Test
+  public void save() {
+    PayloadResponse payloadResponse =
+        payloadService.save(Payload.create().id(ID_1).direction(Direction.RIGHT).content(RIGHT_1));
+    assertEquals(createdMessage(ID_1), payloadResponse.getMessage());
+    assertEquals(HttpStatus.CREATED, payloadResponse.getStatus());
+  }
 }

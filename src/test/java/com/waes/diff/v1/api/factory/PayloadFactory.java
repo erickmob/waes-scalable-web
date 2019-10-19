@@ -15,25 +15,28 @@
  */ 
 package com.waes.diff.v1.api.factory;
 
+import static com.waes.diff.v1.api.repository.entity.Payload.create;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.waes.diff.v1.api.domain.enums.Direction;
 import com.waes.diff.v1.api.repository.entity.Payload;
-import org.assertj.core.util.Lists;
-
 import java.util.List;
-
-import static com.waes.diff.v1.api.repository.entity.Payload.create;
+import org.assertj.core.util.Lists;
 
 public class PayloadFactory {
 
   public static final String ID_1 = "id_1";
   public static final String ID_2 = "id_2";
   public static final String INVALID_PAYLOAD_CONTENT = "{\"content\" : \"\"}";
-  public static final String RIGHT_1 = "IHsKICAgIm5hbWUiOiJXYWVzIiwKICAgImNvdW50cnkiOiJOZXRoZXJsYW5kcyIKIH0K";
-  private static final String LEFT_1 = "IHsKICAgIm5hbWUiOiJXYWVzIiwKICAgImNvdW50cnkiOiJOZXRoZXJsYW5kcyIKIH0K";
-  private static final String LEFT_2 = "IHsKICAgIm5hbWUiOiIxQnl0ZSIsCiAgICJjb3VudHJ5IjoiQnJhemlsIgogfQo=";
-  private static final String RIGHT_2 = "IHsKICAgIm5hbWUiOiIxQnl0ZSIsCiAgICJjb3VudHJ5IjoiQnJhemlsIgogfQo=";
+  public static final String RIGHT_1 =
+      "IHsKICAgIm5hbWUiOiJXYWVzIiwKICAgImNvdW50cnkiOiJOZXRoZXJsYW5kcyIKIH0K";
+  private static final String LEFT_1 =
+      "IHsKICAgIm5hbWUiOiJXYWVzIiwKICAgImNvdW50cnkiOiJOZXRoZXJsYW5kcyIKIH0K";
+  private static final String LEFT_2 =
+      "IHsKICAgIm5hbWUiOiIxQnl0ZSIsCiAgICJjb3VudHJ5IjoiQnJhemlsIgogfQo=";
+  private static final String RIGHT_2 =
+      "IHsKICAgIm5hbWUiOiIxQnl0ZSIsCiAgICJjb3VudHJ5IjoiQnJhemlsIgogfQo=";
   private static final String LEFT_3 = "Y29tcGFyYXRpb24gc2l6ZQ==";
   private static final String RIGHT_3 = "a29tcGFyYXRpb24gc2l0ZQ==";
 

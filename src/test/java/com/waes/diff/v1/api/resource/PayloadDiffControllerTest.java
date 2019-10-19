@@ -15,6 +15,12 @@
  */ 
 package com.waes.diff.v1.api.resource;
 
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.waes.diff.v1.api.domain.enums.Result;
 import com.waes.diff.v1.api.domain.model.PayloadDiffResult;
 import com.waes.diff.v1.api.service.PayloadDiffService;
@@ -24,20 +30,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+@WebMvcTest(PayloadDiffController.class)
+class PayloadDiffControllerTest {
 
-@WebMvcTest(PayloadDiffController.class) class PayloadDiffControllerTest {
+  @Autowired MockMvc mockMvc;
+  @MockBean PayloadDiffService payloadDiffService;
 
-	@Autowired MockMvc mockMvc;
-	@MockBean PayloadDiffService payloadDiffService;
-
-	@Test void getPayloadDiff_shouldReturnEqual() throws Exception {
-		given(payloadDiffService.getDiff("001")).willReturn(PayloadDiffResult.create().result(Result.EQUAL));
-		mockMvc.perform(get("/v1/diff/{id}", "001")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.result").isNotEmpty());
-	}
+  @Test
+  void getPayloadDiff_shouldReturnEqual() throws Exception {
+    given(payloadDiffService.getDiff("001"))
+        .willReturn(PayloadDiffResult.create().result(Result.EQUAL));
+    mockMvc
+        .perform(get("/v1/diff/{id}", "001"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.result").isNotEmpty());
+  }
 }

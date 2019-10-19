@@ -15,23 +15,25 @@
  */ 
 package com.waes.diff.v1.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.waes.diff.v1.api.controller.IndexController;
 import com.waes.diff.v1.api.resource.PayloadController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
+@SpringBootTest
+class ApiApplicationTests {
 
-@SpringBootTest class ApiApplicationTests {
-
-	@Autowired PayloadController payloadController;
+  @Autowired PayloadController payloadController;
   // @Autowired PayloadDiffController payloadDiffController;
   @Autowired IndexController indexController;
 
-	@Test void contextLoads() {
-		assertThat(payloadController).isNotNull();
-		//     assertThat(payloadDiffController).isNotNull();
-		assertThat(indexController).isNotNull();
+  @Test
+  void contextLoads() {
+    assertThat(payloadController).isNotNull();
+    //     assertThat(payloadDiffController).isNotNull();
+    assertThat(indexController).isNotNull();
   }
 }
