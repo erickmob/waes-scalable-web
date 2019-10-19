@@ -48,8 +48,11 @@ jobs:
           command: |
             # Skip this for other nodes
             if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
-              ./gradlew assemble sonarqube -Dsonar.projectKey="johnjonathan_waes-scalable-web" -Dsonar.organization="johnjonathan" -Dsonar.host.url="https://sonarcloud.io"
+              ./gradlew assemble
             fi
+      - run:
+          name: Analyze on SonarCloud
+          command: ./gradlew build sonarqube -Dsonar.projectKey="johnjonathan_waes-scalable-web" -Dsonar.organization="johnjonathan" -Dsonar.host.url="https://sonarcloud.io"
       # This will be empty for all nodes except the first one
       - store_artifacts:
           path: build/libs
