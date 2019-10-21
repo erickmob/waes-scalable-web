@@ -1,0 +1,11 @@
+encrypt: 
+  enabled: false
+  key: MWJ5dGVJbmM=
+spring:
+  data:
+    mongodb:
+      password: '{cipher}53d593ea44091893b6a59fec57691a7bf1366d3d3b82458874f51b7648e98111'
+      uri: mongodb://waes_user:${spring.data.mongodb.password}@mongo:27017/waes_api?retryWrites=true&w=majority
+server:
+  port: 8080
+  
