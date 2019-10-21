@@ -17,16 +17,13 @@ package com.waes.diff.v1.api.repository.entity;
 
 import static lombok.AccessLevel.PRIVATE;
 
-import javax.validation.constraints.NotBlank;
-
 import com.waes.diff.v1.api.domain.enums.Direction;
-
+import javax.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Document(collection = "payloads")
@@ -34,10 +31,7 @@ import lombok.NoArgsConstructor;
     useGeneratedName = true,
     def = "{'id': 1, 'direction': 1, 'content': 1 }",
     unique = true)
-@CompoundIndex(
-    useGeneratedName = true,
-    def = "{'id': 1, 'direction': 1 }",
-    unique = true)    
+@CompoundIndex(useGeneratedName = true, def = "{'id': 1, 'direction': 1 }", unique = true)
 @NoArgsConstructor(access = PRIVATE)
 public class Payload {
   @Id private String uid;
