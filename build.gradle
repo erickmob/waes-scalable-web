@@ -120,25 +120,23 @@ jacocoTestCoverageVerification {
     }
 }
 
-task zip(type: Zip, dependsOn: bootJar) {
-	from('build/libs') {
-		include '*.jar'
-	}
-	from 'src/dist'
-}
-
 task unpack(type: Copy) {
     dependsOn bootJar
     from(zipTree(tasks.bootJar.outputs.files.singleFile))
     into("gradle_build/dependency")
 }
 
+task copySpringBootstrap(type: Copy){
+	from('src/docker/spring')
+	into("gradle_build/dependency/spring")
+}
+
 docker {
-    name "${project.group}/${bootJar.baseName}"
+    name "${hubDockeRepo}/${bootJar.baseName}:${project.getVersion()}"
     copySpec.from(tasks.unpack.outputs).into("dependency")
+	copySpec.from(tasks.copySpringBootstrap.outputs).into("dependency")
     buildArgs(['DEPENDENCY': "dependency"])
 }
 
-build.dependsOn(zip)
 check.dependsOn integrationTest
 integrationTest.finalizedBy jacocoTestCoverageVerification

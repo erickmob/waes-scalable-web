@@ -15,7 +15,6 @@
  */ 
 package com.waes.diff.v1.api.domain.exception;
 
-import com.sun.net.httpserver.HttpServer;
 import com.waes.diff.v1.api.domain.response.ResponseError;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 @ControllerAdvice
 @RestControllerAdvice

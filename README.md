@@ -16,7 +16,7 @@ Clone the repository
 ```zsh
 me@waes git clone git@github.com:johnjonathan/waes-scalable-web.git
 ```
-Build the application
+Build the application 
 
 ```zsh
 me@waes ./gradlew build -x test
