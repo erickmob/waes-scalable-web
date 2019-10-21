@@ -15,7 +15,7 @@
  */ 
 package com.waes.diff.v1.api.domain.exception;
 
-import com.waes.diff.v1.api.domain.exception.error.ResponseError;
+import com.waes.diff.v1.api.domain.response.ResponseError;
 import org.springframework.http.HttpStatus;
 
 public interface PayloadResponseError {

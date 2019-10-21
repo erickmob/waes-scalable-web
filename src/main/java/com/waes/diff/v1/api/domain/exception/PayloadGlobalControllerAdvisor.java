@@ -15,7 +15,8 @@
  */ 
 package com.waes.diff.v1.api.domain.exception;
 
-import com.waes.diff.v1.api.domain.exception.error.ResponseError;
+import com.sun.net.httpserver.HttpServer;
+import com.waes.diff.v1.api.domain.response.ResponseError;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @ControllerAdvice
 @RestControllerAdvice
@@ -41,6 +43,12 @@ public class PayloadGlobalControllerAdvisor {
     return ResponseError.create()
         .status(HttpStatus.BAD_REQUEST)
         .message("The payload you are trying to add has already been added previously.");
+  }
+
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(PayloadForComparisonNotFound.class)
+  public ResponseError handleInternalError(Exception ex) {
+    return ResponseError.create().status(HttpStatus.INTERNAL_SERVER_ERROR).message(ex.getMessage());
   }
 
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
