@@ -14,6 +14,10 @@ group = 'com.waes.diff.api'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
+springBoot {
+	mainClassName = "com.waes.diff.v1.api.ApiApplication"
+}
+
 configurations {
 	developmentOnly
 	runtimeClasspath {
@@ -22,9 +26,6 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-}
-
-bootJar {
 }
 
 repositories {
@@ -36,8 +37,6 @@ ext {
 	set('springCloudVersion', "Hoxton.M3")
 }
 
-
-
 testSets {
 	integrationTest {
 		dirName = 'integration-test'
@@ -46,10 +45,8 @@ testSets {
 
 dependencies {
 	// spring boot and cloud
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	// swagger 
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
@@ -67,11 +64,8 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		exclude group: 'junit', module: 'junit' //by both name and group
 	}
-//	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
-//	testImplementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
-//	testImplementation "org.junit.jupiter:junit-jupiter-params:5.2.0"
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
-	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'	
+	runtimeOnly 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 	testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
 	integrationTestImplementation sourceSets.test.output
 }
@@ -106,7 +100,7 @@ jacocoTestCoverageVerification {
 					'**/ApiApplication**',
 					'**/v1/api/domain/enums/*',
 					'**/v1/api/domain/request/*',
-//					'**/v1/api/domain/*',
+					'**/v1/api/domain/exception/*',
 					'**/v1/api/filter/*',
 					'**/v1/api/repository/entity/*',
 			])
@@ -116,25 +110,21 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
 			element = 'CLASS'
+			excludes = ['com.waes.diff.v1.api.ApiApplication**','**/v1/api/**/exception/*']
             limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
-//                minimum = 0.7
-            }
-        }
-
-		rule {
-			enabled = false
-			element = 'CLASS'
-			includes = ['com.waes.diff.v1.api.*']
-			excludes = ['com.waes.diff.v1.api.ApiApplication**']
-            limit {
-				counter = 'LINE'
-				value = 'TOTALCOUNT'
-                maximum = 0.3
+                minimum = 0.7
             }
         }
     }
+}
+
+task zip(type: Zip, dependsOn: bootJar) {
+	from('build/libs') {
+		include '*.jar'
+	}
+	from 'src/dist'
 }
 
 task unpack(type: Copy) {
@@ -149,5 +139,6 @@ docker {
     buildArgs(['DEPENDENCY': "dependency"])
 }
 
+build.dependsOn(zip)
 check.dependsOn integrationTest
 integrationTest.finalizedBy jacocoTestCoverageVerification
