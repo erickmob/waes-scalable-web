@@ -47,7 +47,7 @@ services:
     image: johnjonathan/waes-scalable-web:1.0.0
     container_name: waes-api
     ports:
-      - 8090:8080
+      - 8080:8080
     depends_on: 
       - config-server
     command: dockerize -wait tcp://config-server:8888 tcp://mongo:27017
