@@ -103,9 +103,10 @@ me@waes docker-compose up -d && docker-compose-logs -f
 ## Running the tests
 To run the tests just execute the gradle test task
 ```zsh
-   me@waes ./gradlew test
+me@waes ./gradlew test
 ```
-
+## API Documentation
+You can check the API docs on http://localhost:8080/swagger-ui.html 
 ## Built With
 
 * [Spring Boot 2](https://spring.io/projects/spring-boot) - The web framework used
