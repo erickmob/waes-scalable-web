@@ -82,7 +82,24 @@ Response
   ]
 }
 ```
+## Running with Docker
 
+```
+me@waes ./gradlew docker
+```
+A docker image named johnjonathan/waes-scalable-web:1.0.0 will be available locally.
+There's a docker-compose file inside src/docker directory configured with:
+- MongoDB
+- Mongo Express
+- Spring boot Config Server
+- Waes API
+
+to run the application with Docker you can use:
+```
+# The following commando will start all four containers and show the execution logs.
+# The waes-api container uses Dockerize to wait until MongoDB and the Config server are available to start
+me@waes docker-compose up -d && docker-compose-logs -f 
+```
 ## Running the tests
 To run the tests just execute the gradle test task
 ```zsh
@@ -106,7 +123,7 @@ I use [SemVer](http://semver.org/) for versioning. For the versions available, s
 
 ## Authors
 
-* **John Silva** - *Initial work* 
+* **John Silva** - johnjonathann@live.com
 
 ## License
 
