@@ -89,10 +89,10 @@ me@waes ./gradlew docker
 ```
 A docker image named johnjonathan/waes-scalable-web:1.0.0 will be available locally.
 There's a docker-compose file inside src/docker directory configured with:
-- MongoDB
-- Mongo Express
-- Spring boot Config Server
-- Waes API
+- MongoDB 
+- Mongo Express (available on http://localhost:8081)
+- Spring boot Config Server (available on http://localhost:8888/actuator/env)
+- Waes API (available on http://localhost:8080)
 
 to run the application with Docker you can use:
 ```
@@ -100,13 +100,18 @@ to run the application with Docker you can use:
 # The waes-api container uses Dockerize to wait until MongoDB and the Config server are available to start
 me@waes docker-compose up -d && docker-compose-logs -f 
 ```
+Mongo Express is available on http://localhost:8081
+
 ## Running the tests
 To run the tests just execute the gradle test task
+
 ```zsh
 me@waes ./gradlew test
 ```
+
 ## API Documentation
-You can check the API docs on http://localhost:8080/swagger-ui.html 
+You can check the API docs on http://localhost:8080/swagger-ui.html
+
 ## Built With
 
 * [Spring Boot 2](https://spring.io/projects/spring-boot) - The web framework used
