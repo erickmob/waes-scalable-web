@@ -11,6 +11,9 @@ jobs:
       - image: circleci/openjdk:8-jdk-stretch-node-browsers-legacy
     steps:
       - checkout
+      - setup_remote_docker:
+            docker_layer_caching: true
+            version: 18.06.0-ce
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
@@ -50,6 +53,26 @@ jobs:
             if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
               ./gradlew assemble
             fi
+      - run:
+          name: Install Docker Client
+          command: |
+            set -x
+            VER="18.06.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: Build Docker image
+          command: |
+            ./gradlew docker
+      - run:
+          name: Docker authentication
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Push to docker hub
+          command: |
+            ./gradlew dockerPush
       - run:
           name: Analyze on SonarCloud
           command: ./gradlew build sonarqube -Dsonar.projectKey="johnjonathan_waes-scalable-web" -Dsonar.organization="johnjonathan" -Dsonar.host.url="https://sonarcloud.io"
