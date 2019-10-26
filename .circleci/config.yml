@@ -12,7 +12,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-            docker_layer_caching: true
             version: 18.06.0-ce
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
